@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src/ test/ system-test/ bin/ *.js",
-    "prepublish": "rm -rf lib/ && babel src/ --out-dir lib/",
+    "prepublish": "npm run snyk-protect && rm -rf lib/ && babel src/ --out-dir lib/",
     "system-test": "npm run prepublish && mocha --compilers js:babel-register \"system-test/**/*Test.js\"",
     "//": "Unit tests: a) for single run, b) in watch-mode, c) with coverage.",
     "test": "mocha --compilers js:babel-register \"test/**/*Test.js\"",
@@ -13,7 +13,8 @@
     "coverage": "nyc npm test",
     "///": "These are used by Travis to create coverage report. Run 'coverage' script first.",
     "ensure-coverage": "nyc check-coverage --statements 80 --branches 80 --functions 80",
-    "upload-coverage": "nyc report --reporter=lcov && cat coverage/*/lcov.info | codecov"
+    "upload-coverage": "nyc report --reporter=lcov && cat coverage/*/lcov.info | codecov",
+    "snyk-protect": "snyk protect"
   },
   "engines": {
     "node": ">=4"
@@ -53,7 +54,8 @@
     "estraverse": "^4.1.1",
     "glob": "^7.0.5",
     "lodash": "^4.5.1",
-    "recast": "^0.11.20"
+    "recast": "^0.11.20",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
@@ -66,5 +68,6 @@
     "eslint-plugin-no-null": "^1.0.1",
     "mocha": "^3.2.0",
     "nyc": "^10.1.2"
-  }
+  },
+  "snyk": true
 }
